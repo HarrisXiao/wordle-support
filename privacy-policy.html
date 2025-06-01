@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - Wordle 中文版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-color: #ffffff;
+            --surface-color: #f8fafc;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --background-color: #111827;
+            --surface-color: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 16px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .language-selector {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .language-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .policy-content {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .policy-content h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .policy-content h3 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .policy-content p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .policy-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .policy-content li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .contact-email {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        .language-content {
+            display: none;
+        }
+
+        .language-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--surface-color);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .policy-content {
+                padding: 25px;
+            }
+
+            .language-buttons {
+                gap: 8px;
+            }
+
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+    </div>
+
+    <div class="container">
+        <a href="index.html" class="back-link">
+            ← 返回技术支持首页
+        </a>
+
+        <div class="header">
+            <h1>隐私政策</h1>
+            <p>我们重视您的隐私并承诺保护您的个人信息</p>
+        </div>
+
+        <div class="language-selector">
+            <p style="color: var(--text-secondary); margin-bottom: 10px;">选择语言 / Select Language:</p>
+            <div class="language-buttons">
+                <button class="lang-btn active" onclick="switchLanguage('zh')">简体中文</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+                <button class="lang-btn" onclick="switchLanguage('es')">Español</button>
+                <button class="lang-btn" onclick="switchLanguage('fr')">Français</button>
+                <button class="lang-btn" onclick="switchLanguage('ja')">日本語</button>
+            </div>
+        </div>
+
+        <!-- 中文版本 -->
+        <div id="content-zh" class="language-content active">
+            <div class="policy-content">
+                <h2>隐私政策</h2>
+                <p class="last-updated">最后更新日期：2025年4月8日</p>
+                
+                <p>本隐私政策描述了我们在您使用Wordle应用时收集、使用和共享的信息。</p>
+
+                <h3>信息收集</h3>
+                <p>我们收集的信息包括：</p>
+                <ul>
+                    <li>游戏统计数据（胜率、连胜等）</li>
+                    <li>设备信息</li>
+                    <li>诊断数据</li>
+                </ul>
+
+                <h3>信息使用</h3>
+                <p>我们使用收集的信息来：</p>
+                <ul>
+                    <li>提供和维护服务</li>
+                    <li>改进应用体验</li>
+                    <li>分析使用情况</li>
+                </ul>
+
+                <h3>数据存储</h3>
+                <p>您的游戏数据主要存储在您的设备上。我们不会将您的个人游戏记录上传到我们的服务器。</p>
+
+                <h3>第三方服务</h3>
+                <p>我们可能使用第三方服务来帮助我们改进应用，这些服务可能会收集有关您使用我们应用的信息。</p>
+
+                <h3>儿童隐私</h3>
+                <p>我们的服务不面向5岁以下的儿童。</p>
+
+                <div class="contact-info">
+                    <h3>联系我们</h3>
+                    <p>如有任何问题，请通过以下邮箱联系我们：</p>
+                    <a href="mailto:nepoxh@163.com" class="contact-email">nepoxh@163.com</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- English Version -->
+        <div id="content-en" class="language-content">
+            <div class="policy-content">
+                <h2>Privacy Policy</h2>
+                <p class="last-updated">Last Updated: April 8, 2025</p>
+                
+                <p>This Privacy Policy describes how we collect, use, and share information when you use the Wordle application.</p>
+
+                <h3>Information Collection</h3>
+                <p>We collect the following information:</p>
+                <ul>
+                    <li>Game statistics data (win rate, streaks, etc.)</li>
+                    <li>Device information</li>
+                    <li>Diagnostic data</li>
+                </ul>
+
+                <h3>Information Usage</h3>
+                <p>We use the collected information to:</p>
+                <ul>
+                    <li>Provide and maintain the service</li>
+                    <li>Improve the application experience</li>
+                    <li>Analyze usage patterns</li>
+                </ul>
+
+                <h3>Data Storage</h3>
+                <p>Your game data is primarily stored on your device. We do not upload your personal game records to our servers.</p>
+
+                <h3>Third-Party Services</h3>
+                <p>We may use third-party services to help us improve the application, which may collect information about your use of our application.</p>
+
+                <h3>Children's Privacy</h3>
+                <p>Our services are not directed to children under the age of 5.</p>
+
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <p>If you have any questions, please contact us at:</p>
+                    <a href="mailto:nepoxh@163.com" class="contact-email">nepoxh@163.com</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spanish Version -->
+        <div id="content-es" class="language-content">
+            <div class="policy-content">
+                <h2>Política de Privacidad</h2>
+                <p class="last-updated">Última actualización: 8 de abril de 2025</p>
+                
+                <p>Esta Política de Privacidad describe cómo recopilamos, usamos y compartimos información cuando utiliza la aplicación Wordle.</p>
+
+                <h3>Recopilación de Información</h3>
+                <p>Recopilamos la siguiente información:</p>
+                <ul>
+                    <li>Datos estadísticos del juego (tasa de victorias, rachas, etc.)</li>
+                    <li>Información del dispositivo</li>
+                    <li>Datos de diagnóstico</li>
+                </ul>
+
+                <h3>Uso de la Información</h3>
+                <p>Utilizamos la información recopilada para:</p>
+                <ul>
+                    <li>Proporcionar y mantener el servicio</li>
+                    <li>Mejorar la experiencia de la aplicación</li>
+                    <li>Analizar patrones de uso</li>
+                </ul>
+
+                <h3>Almacenamiento de Datos</h3>
+                <p>Sus datos de juego se almacenan principalmente en su dispositivo. No cargamos sus registros personales de juego a nuestros servidores.</p>
+
+                <h3>Servicios de Terceros</h3>
+                <p>Podemos utilizar servicios de terceros para ayudarnos a mejorar la aplicación, que pueden recopilar información sobre su uso de nuestra aplicación.</p>
+
+                <h3>Privacidad de los Niños</h3>
+                <p>Nuestros servicios no están dirigidos a niños menores de 5 años.</p>
+
+                <div class="contact-info">
+                    <h3>Contáctenos</h3>
+                    <p>Si tiene alguna pregunta, contáctenos en:</p>
+                    <a href="mailto:nepoxh@163.com" class="contact-email">nepoxh@163.com</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- French Version -->
+        <div id="content-fr" class="language-content">
+            <div class="policy-content">
+                <h2>Politique de Confidentialité</h2>
+                <p class="last-updated">Dernière mise à jour : 8 avril 2025</p>
+                
+                <p>Cette Politique de Confidentialité décrit comment nous collectons, utilisons et partageons les informations lorsque vous utilisez l'application Wordle.</p>
+
+                <h3>Collecte d'Informations</h3>
+                <p>Nous collectons les informations suivantes :</p>
+                <ul>
+                    <li>Données statistiques de jeu (taux de victoire, séries, etc.)</li>
+                    <li>Informations sur l'appareil</li>
+                    <li>Données de diagnostic</li>
+                </ul>
+
+                <h3>Utilisation des Informations</h3>
+                <p>Nous utilisons les informations collectées pour :</p>
+                <ul>
+                    <li>Fournir et maintenir le service</li>
+                    <li>Améliorer l'expérience de l'application</li>
+                    <li>Analyser les modèles d'utilisation</li>
+                </ul>
+
+                <h3>Stockage des Données</h3>
+                <p>Vos données de jeu sont principalement stockées sur votre appareil. Nous ne téléchargeons pas vos enregistrements de jeu personnels sur nos serveurs.</p>
+
+                <h3>Services Tiers</h3>
+                <p>Nous pouvons utiliser des services tiers pour nous aider à améliorer l'application, qui peuvent collecter des informations sur votre utilisation de notre application.</p>
+
+                <h3>Confidentialité des Enfants</h3>
+                <p>Nos services ne sont pas destinés aux enfants de moins de 5 ans.</p>
+
+                <div class="contact-info">
+                    <h3>Contactez-nous</h3>
+                    <p>Si vous avez des questions, veuillez nous contacter à :</p>
+                    <a href="mailto:nepoxh@163.com" class="contact-email">nepoxh@163.com</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Japanese Version -->
+        <div id="content-ja" class="language-content">
+            <div class="policy-content">
+                <h2>プライバシーポリシー</h2>
+                <p class="last-updated">最終更新日：2025年4月8日</p>
+                
+                <p>このプライバシーポリシーは、Wordleアプリケーションを使用する際に、当社が収集、使用、共有する情報について説明しています。</p>
+
+                <h3>情報収集</h3>
+                <p>当社が収集する情報には以下が含まれます：</p>
+                <ul>
+                    <li>ゲーム統計データ（勝率、連勝など）</li>
+                    <li>デバイス情報</li>
+                    <li>診断データ</li>
+                </ul>
+
+                <h3>情報の使用</h3>
+                <p>当社は収集した情報を以下の目的で使用します：</p>
+                <ul>
+                    <li>サービスの提供と維持</li>
+                    <li>アプリケーション体験の向上</li>
+                    <li>使用パターンの分析</li>
+                </ul>
+
+                <h3>データストレージ</h3>
+                <p>ゲームデータは主にあなたのデバイスに保存されます。個人のゲーム記録を当社のサーバーにアップロードすることはありません。</p>
+
+                <h3>第三者サービス</h3>
+                <p>当社はアプリケーションの改善を支援するために第三者サービスを使用することがあり、これらのサービスは当社のアプリケーションの使用に関する情報を収集する場合があります。</p>
+
+                <h3>子どものプライバシー</h3>
+                <p>当社のサービスは5歳未満の子どもを対象としていません。</p>
+
+                <div class="contact-info">
+                    <h3>お問い合わせ</h3>
+                    <p>ご質問がある場合は、以下のメールアドレスまでお問い合わせください：</p>
+                    <a href="mailto:nepoxh@163.com" class="contact-email">nepoxh@163.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // 隐藏所有语言内容
+            document.querySelectorAll('.language-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 显示选中的语言内容
+            document.getElementById(`content-${lang}`).classList.add('active');
+            
+            // 更新按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 保存语言选择
+            localStorage.setItem('privacyPageLanguage', lang);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // 页面加载时应用保存的设置
+        document.addEventListener('DOMContentLoaded', function() {
+            // 恢复主题设置
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-icon').textContent = '☀️';
+            }
+            
+            // 恢复语言设置
+            const savedLanguage = localStorage.getItem('privacyPageLanguage') || 'zh';
+            if (savedLanguage !== 'zh') {
+                document.querySelectorAll('.language-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`content-${savedLanguage}`).classList.add('active');
+                
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[onclick="switchLanguage('${savedLanguage}')"]`).classList.add('active');
+            }
+        });
+
+        // 添加平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
